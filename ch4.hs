@@ -99,3 +99,22 @@ myfilter :: (a -> Bool) -> [a] -> [a]
 myfilter _ [] = []
 myfilter f (x:xs) = if f x then x : myfilter f xs
                            else     myfilter f xs
+
+myisPrefixOf :: Eq a => [a] -> [a] -> Bool
+myisPrefixOf [] _  = True
+myisPrefixOf _  [] = False
+myisPrefixOf xs ys = if head xs == head ys
+                     then myisPrefixOf (tail xs) (tail ys)
+                     else False
+
+myisInfixOf :: Eq a => [a] -> [a] -> Bool
+myisInfixOf [] _  = True
+myisInfixOf _  [] = False
+myisInfixOf xs ys = (head xs == head ys
+                      && myisPrefixOf (tail xs) (tail ys)
+                    ) || myisInfixOf        xs  (tail ys)
+
+myisSuffixOf :: Eq a => [a] -> [a] -> Bool
+myisSuffixOf [] _  = True
+myisSuffixOf _  [] = False
+myisSuffixOf xs ys = xs == ys || myisSuffixOf xs (tail ys)
