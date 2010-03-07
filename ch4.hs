@@ -118,3 +118,13 @@ myisSuffixOf :: Eq a => [a] -> [a] -> Bool
 myisSuffixOf [] _  = True
 myisSuffixOf _  [] = False
 myisSuffixOf xs ys = xs == ys || myisSuffixOf xs (tail ys)
+
+myzip :: [a] -> [b] -> [(a, b)]
+myzip [] _  = []
+myzip _  [] = []
+myzip xs ys = (head xs, head ys) : myzip (tail xs) (tail ys)
+
+myzipWith :: (a -> b -> c) -> [a] -> [b] -> [c]
+myzipWith _ [] _  = []
+myzipWith _ _  [] = []
+myzipWith f xs ys = (f (head xs) (head ys)) : myzipWith f (tail xs) (tail ys)
