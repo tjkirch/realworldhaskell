@@ -128,3 +128,37 @@ myzipWith :: (a -> b -> c) -> [a] -> [b] -> [c]
 myzipWith _ [] _  = []
 myzipWith _ _  [] = []
 myzipWith f xs ys = (f (head xs) (head ys)) : myzipWith f (tail xs) (tail ys)
+
+-- first attempt, broken and ugly (funny how those go together)
+--mylines :: String -> [String]
+--mylines [] = [[]]
+--mylines s = if length splitRemaining == 1 && null (head splitRemaining)
+--            then [firstLine]
+--            else firstLine : mylines remainingLines
+--   where (firstLine, rest) = break ((==) '\n') s
+--         remainingLines = if null rest then [] else tail rest
+--         splitRemaining = mylines remainingLines
+
+splitOn :: [Char] -> String -> [String]
+splitOn _  [] = []
+splitOn cs s  = pre : rest
+   where (pre, suf) = break isSplitChar s
+         rest = if null suf then []
+                else splitOn cs (tail suf)
+         isSplitChar = flip elem cs
+
+mylines :: String -> [String]
+mylines = splitOn ['\n']
+
+myunlines :: [String] -> String
+myunlines [] = []
+myunlines ss = (head ss) ++ "\n" ++ myunlines (tail ss)
+
+mywords :: String -> [String]
+mywords = splitOn ['\n',' ','\t','\r']
+
+myunwords :: [String] -> String
+myunwords [] = []
+myunwords ss = if null rest then head ss
+               else head ss ++ " " ++ rest
+   where rest = myunwords (tail ss)
