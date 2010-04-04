@@ -183,3 +183,11 @@ safeInit :: [a] -> Maybe [a]
 safeInit [] = Nothing
 safeInit (x:[]) = Just []
 safeInit (x:xs) = Just (x : init xs)
+
+-- ex. 2
+-- splitWith: like words, given predicate and any list
+splitWith :: (a -> Bool) -> [a] -> [[a]]
+splitWith _ [] = []
+splitWith f xs = matches : if null rest then []
+                           else splitWith f (tail rest)
+   where (matches, rest) = break f xs
