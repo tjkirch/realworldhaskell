@@ -191,3 +191,16 @@ splitWith _ [] = []
 splitWith f xs = matches : if null rest then []
                            else splitWith f (tail rest)
    where (matches, rest) = break f xs
+
+-- ex. 3 - see firstword.hs
+
+-- ex. 4
+-- Transpose the text in a file
+-- (I'll generalize, then simplify for strings)
+transpose :: [[a]] -> [[a]]
+transpose []     = []
+transpose ([]:x) = []
+transpose xs     = (map head xs) : transpose (map tail xs)
+
+transposeLines :: [Char] -> [Char]
+transposeLines = unlines . transpose . lines
